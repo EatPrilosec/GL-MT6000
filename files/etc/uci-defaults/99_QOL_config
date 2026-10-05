@@ -41,6 +41,9 @@ set firewall.@zone[1].forward='DROP'
 # uHTTPd settings
 set uhttpd.main.redirect_https='1'
 
+# LuCI default theme
+set luci.main.mediaurlbase='/luci-static/aurora'
+
 # Mark these defaults as applied
 set qol_config.state='state'
 set qol_config.state.applied='1'
@@ -48,5 +51,6 @@ set qol_config.state.applied='1'
 commit wireless
 commit firewall
 commit uhttpd
+commit luci
 commit qol_config
 EOI

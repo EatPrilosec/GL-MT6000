@@ -1,0 +1,4 @@
+# Local configuration workspace and artifacts
+config-workspace/
+*-custom.config
+mt6000-custom.config

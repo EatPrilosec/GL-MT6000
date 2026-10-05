@@ -44,7 +44,7 @@ jobs:
   build:
     name: Build OpenWrt
     needs: check_commits
-    if: github.event_name == 'workflow_dispatch' || needs.check_commits.outputs.new_commits == 'true'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || needs.check_commits.outputs.new_commits == 'true'
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Install dependencies
@@ -83,6 +83,9 @@ jobs:
             [ -d "$d" ] || continue
             find "$d" -type f -exec chmod -v 755 {} +
           done
+          # Clone Aurora theme and configuration app
+          git clone --depth=1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
+          git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config.git package/luci-app-aurora-config
           mv -v builder_repo/${{ env.CONFIG_FILE }} .config
           rm -rfv builder_repo
           make defconfig
