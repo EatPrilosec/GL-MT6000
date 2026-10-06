@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential clang flex bison g++ gawk gettext libncurses-dev libssl-dev python3-setuptools rsync swig unzip zlib1g-dev file wget llvm
+          sudo apt install -y build-essential clang flex bison g++ gawk gettext libncurses-dev libssl-dev python3-setuptools rsync swig unzip zlib1g-dev file wget llvm golang-go
           sudo apt autoremove -y && sudo apt clean -y
 
       - name: Checkout remote repository
@@ -88,6 +88,10 @@ jobs:
           git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config.git package/luci-app-aurora-config
           mv -v builder_repo/${{ env.CONFIG_FILE }} .config
           rm -rfv builder_repo
+          # Configure OpenWrt to use host Go compiler instead of ancient Go 1.4 bootstrap (incompatible with ARM64 runner)
+          sed -i '/CONFIG_GOLANG_BUILD_BOOTSTRAP/d' .config
+          echo '# CONFIG_GOLANG_BUILD_BOOTSTRAP is not set' >> .config
+          echo "CONFIG_GOLANG_EXTERNAL_BOOTSTRAP_ROOT=\"$(go env GOROOT)\"" >> .config
           make defconfig
 
       - name: Build firmware
