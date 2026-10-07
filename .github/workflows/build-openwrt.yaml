@@ -91,12 +91,6 @@ jobs:
           git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config.git package/luci-app-aurora-config
           mv -v builder_repo/${{ env.CONFIG_FILE }} .config
           rm -rfv builder_repo
-          # Resolve file ownership conflict between zerotier and luci-app-zerotier under apk:
-          # luci-app-zerotier provides the LuCI-compatible init script and config; remove duplicate files from zerotier package.
-          rm -f feeds/packages/net/zerotier/files/etc/config/zerotier
-          rm -f feeds/packages/net/zerotier/files/etc/init.d/zerotier
-          sed -i '/\/etc\/config\/zerotier/d' feeds/packages/net/zerotier/Makefile
-          rm -f bin/*/packages/*/packages/zerotier* 2>/dev/null || :
           # Configure OpenWrt to use runner's Go 1.24 to bootstrap Go 1.27
           echo "Using runner Go: $(go version) at $(go env GOROOT)"
           sed -i '/CONFIG_GOLANG_BUILD_BOOTSTRAP/d' .config
@@ -153,7 +147,7 @@ jobs:
             - Disk Power Management: `luci-app-hd-idle` (auto spindown for external HDDs).
           * **VPN & Remote Networking:**
             - Tailscale mesh VPN (`tailscale`, `luci-app-tailscale-community`).
-            - ZeroTier SDN (`zerotier`, `luci-app-zerotier`).
+            - ZeroTier SDN (`zerotier`).
             - WireGuard (`luci-proto-wireguard`) & Policy Based Routing (`luci-app-pbr`).
             - Optional NordVPN Lite installer script (`nordvpnlite-install`).
           * **Security, Adblocking & Firewall:**
