@@ -15,7 +15,7 @@ Compared to his custom firmware, this firmware adds:
 - **Security & Adblocking**: banIP nftables threat blocker (`banip`, `luci-app-banip`), AdGuard Home DNS sinkhole (`adguardhome`, `luci-app-adguardhome`), AdBlock Fast (`adblock-fast`, `luci-app-adblock-fast`), and Pi-hole available via Docker.
 - **Encrypted DNS (DoH / DoT)**: HTTPS DNS Proxy for IPv4/IPv6 (`https-dns-proxy`, `luci-app-https-dns-proxy`) and SmartDNS multi-upstream resolver (`smartdns`, `luci-app-smartdns`).
 - **Traffic & Multi-WAN Management**: SQM QoS with CAKE (`sqm-scripts`, `luci-app-sqm`), Multi-WAN failover & load balancing (`mwan3`, `luci-app-mwan3`), and CAKE QoS schedulers (`kmod-sched-cake`, `tc-tiny`).
-- **Networking & Administration**: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS discovery (`avahi-nodbus-daemon`), Web Terminal (`luci-app-ttyd`), Bandwidth Monitoring (`luci-app-nlbwmon`), System Statistics (`luci-app-statistics`), Wake-on-LAN (`luci-app-wol`).
+- **Networking & Administration**: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS discovery (`avahi-dbus-daemon`), Web Terminal (`luci-app-ttyd`), Bandwidth Monitoring (`luci-app-nlbwmon`), System Statistics (`luci-app-statistics`), Wake-on-LAN (`luci-app-wol`).
 - **Modern Themes**: Aurora (default theme on first boot via UCI default) + configuration app (`luci-app-aurora-config`), Argon, and Material.
 - **Wireless & Roaming**: usteer AP roaming assist & band steering (`usteer`, `luci-app-usteer`), full `wpad-openssl` (802.11k/v/r), and WiFi UCODE scripts (faster boot).
 - **System Enhancements**: Persistent terminal command history, kernel swap support enabled, and Custom Attended Sysupgrade.

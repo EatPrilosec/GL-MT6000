@@ -91,6 +91,12 @@ jobs:
           git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config.git package/luci-app-aurora-config
           mv -v builder_repo/${{ env.CONFIG_FILE }} .config
           rm -rfv builder_repo
+          # Resolve file ownership conflict between zerotier and luci-app-zerotier under apk:
+          # luci-app-zerotier provides the LuCI-compatible init script and config; remove duplicate files from zerotier package.
+          rm -f feeds/packages/net/zerotier/files/etc/config/zerotier
+          rm -f feeds/packages/net/zerotier/files/etc/init.d/zerotier
+          sed -i '/\/etc\/config\/zerotier/d' feeds/packages/net/zerotier/Makefile
+          rm -f bin/*/packages/*/packages/zerotier* 2>/dev/null || :
           # Configure OpenWrt to use runner's Go 1.24 to bootstrap Go 1.27
           echo "Using runner Go: $(go version) at $(go env GOROOT)"
           sed -i '/CONFIG_GOLANG_BUILD_BOOTSTRAP/d' .config
@@ -112,9 +118,9 @@ jobs:
             make -j1 V=s
           }
           mkdir -p firmware
-          find ./bin -type f \( -iname 'openwrt-*-sysupgrade.bin' -or -iname 'config.buildinfo' -or -iname 'version.buildinfo' \) -exec mv -v {} ./firmware/ \; ||:
+          find ./bin -type f \( -iname 'openwrt-*-sysupgrade.bin' -or -iname 'openwrt-*-factory.bin' -or -iname 'config.buildinfo' -or -iname 'version.buildinfo' \) -exec mv -v {} ./firmware/ \; ||:
           mv .config firmware/full.config ||:
-          cd firmware && sha256sum openwrt-*-sysupgrade.bin >sha256sums ||:
+          cd firmware && sha256sum openwrt-* >sha256sums ||:
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7.0.1
@@ -154,7 +160,7 @@ jobs:
             - IP Threat Blocker: banIP nftables sets (`banip`, `luci-app-banip`).
             - DNS Adblocker & Sinkhole: AdGuard Home (`adguardhome`, `luci-app-adguardhome`).
             - Fast DNS Blocker: AdBlock Fast (`adblock-fast`, `luci-app-adblock-fast`).
-            - Port Mapping & Discovery: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS (`avahi-nodbus-daemon`).
+            - Port Mapping & Discovery: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS (`avahi-dbus-daemon`).
           * **Encrypted DNS (DoH / DoT):**
             - Official DoH Proxy: HTTPS DNS Proxy for IPv4/IPv6 (`https-dns-proxy`, `luci-app-https-dns-proxy`).
             - Smart Multi-Upstream Resolver: SmartDNS DoH/DoT (`smartdns`, `luci-app-smartdns`).
