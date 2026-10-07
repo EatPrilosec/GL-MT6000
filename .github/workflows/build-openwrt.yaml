@@ -150,12 +150,23 @@ jobs:
             - ZeroTier SDN (`zerotier`, `luci-app-zerotier`).
             - WireGuard (`luci-proto-wireguard`) & Policy Based Routing (`luci-app-pbr`).
             - Optional NordVPN Lite installer script (`nordvpnlite-install`).
+          * **Security, Adblocking & Firewall:**
+            - IP Threat Blocker: banIP nftables sets (`banip`, `luci-app-banip`).
+            - DNS Adblocker & Sinkhole: AdGuard Home (`adguardhome`, `luci-app-adguardhome`).
+            - Fast DNS Blocker: AdBlock Fast (`adblock-fast`, `luci-app-adblock-fast`).
+            - Port Mapping & Discovery: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS (`avahi-nodbus-daemon`).
+          * **Encrypted DNS (DoH / DoT):**
+            - Official DoH Proxy: HTTPS DNS Proxy for IPv4/IPv6 (`https-dns-proxy`, `luci-app-https-dns-proxy`).
+            - Smart Multi-Upstream Resolver: SmartDNS DoH/DoT (`smartdns`, `luci-app-smartdns`).
+          * **Traffic & Multi-WAN Management:**
+            - Bufferbloat Mitigation: SQM QoS with CAKE (`sqm-scripts`, `luci-app-sqm`).
+            - Multi-WAN Balancing: mwan3 failover & load balancing (`mwan3`, `luci-app-mwan3`).
+            - Core QoS: CAKE schedulers (`kmod-sched-cake`, `tc-tiny`).
           * **Administration & Monitoring:**
             - Web Terminal: `luci-app-ttyd` (browser SSH/terminal tab in LuCI).
             - Bandwidth Monitor: `luci-app-nlbwmon` (per-host traffic accounting).
             - Performance Graphs: `luci-app-statistics` (collectd CPU, RAM, load, traffic charts).
-            - Port Mapping & Discovery: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS (`avahi-nodbus-daemon`).
-            - Network Tools: Wake-on-LAN (`luci-app-wol`), AdBlock Fast (`luci-app-adblock-fast`), CAKE QoS (`kmod-sched-cake`, `tc-tiny`).
+            - Network Tools: Wake-on-LAN (`luci-app-wol`).
             - Shell & System: Persistent terminal command history, kernel swap support enabled.
           * **Modern Themes:**
             - Aurora (`luci-theme-aurora` set as default on first boot) + visual configurator (`luci-app-aurora-config`).

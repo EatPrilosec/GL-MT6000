@@ -54,3 +54,9 @@ commit uhttpd
 commit luci
 commit qol_config
 EOI
+
+# Ensure optional services stay dormant on first boot until user enables them in LuCI
+for svc in adguardhome banip https-dns-proxy smartdns sqm mwan3; do
+    [ -x "/etc/init.d/$svc" ] && /etc/init.d/$svc disable 2>/dev/null || true
+done
+
