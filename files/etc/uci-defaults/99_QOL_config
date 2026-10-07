@@ -56,7 +56,7 @@ commit qol_config
 EOI
 
 # Ensure optional services stay dormant on first boot until user enables them in LuCI
-for svc in adguardhome banip https-dns-proxy smartdns sqm mwan3; do
+for svc in adguardhome banip https-dns-proxy smartdns sqm mwan3 usteer; do
     [ -x "/etc/init.d/$svc" ] && /etc/init.d/$svc disable 2>/dev/null || true
 done
 

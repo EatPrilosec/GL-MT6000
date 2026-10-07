@@ -162,6 +162,9 @@ jobs:
             - Bufferbloat Mitigation: SQM QoS with CAKE (`sqm-scripts`, `luci-app-sqm`).
             - Multi-WAN Balancing: mwan3 failover & load balancing (`mwan3`, `luci-app-mwan3`).
             - Core QoS: CAKE schedulers (`kmod-sched-cake`, `tc-tiny`).
+          * **Wireless & Roaming Optimization:**
+            - AP Roaming & Band Steering: usteer 802.11k/v/r assist (`usteer`, `luci-app-usteer`).
+            - Full WPA3/802.11r/k/v suite: `wpad-openssl` with fast WiFi UCODE scripts.
           * **Administration & Monitoring:**
             - Web Terminal: `luci-app-ttyd` (browser SSH/terminal tab in LuCI).
             - Bandwidth Monitor: `luci-app-nlbwmon` (per-host traffic accounting).
