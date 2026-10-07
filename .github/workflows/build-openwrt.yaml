@@ -43,11 +43,13 @@ jobs:
     needs: check_commits
     if: github.event_name == 'workflow_dispatch' || needs.check_commits.outputs.new_commits == 'true'
     runs-on: [self-hosted, gl-mt6000]
+    env:
+      CCACHE_DIR: /runner/_work/.ccache
     steps:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential clang flex bison g++ gawk gettext libncurses-dev libssl-dev python3-setuptools rsync swig unzip zlib1g-dev file wget llvm
+          sudo apt install -y build-essential clang flex bison g++ gawk gettext libncurses-dev libssl-dev python3-setuptools rsync swig unzip zlib1g-dev file wget llvm ccache
           sudo apt autoremove -y && sudo apt clean -y
 
       - name: Setup Go 1.24
@@ -97,10 +99,18 @@ jobs:
           sed -i '/CONFIG_GOLANG_EXTERNAL_BOOTSTRAP_ROOT/d' .config
           echo '# CONFIG_GOLANG_BUILD_BOOTSTRAP is not set' >> .config
           echo "CONFIG_GOLANG_EXTERNAL_BOOTSTRAP_ROOT=\"$(go env GOROOT)\"" >> .config
+          # Configure ccache and persistent download directory on runner NVMe
+          mkdir -p /runner/_work/.ccache /runner/_work/dl
+          ccache -M 25G
+          sed -i '/CONFIG_CCACHE_DIR/d' .config
+          sed -i '/CONFIG_DOWNLOAD_FOLDER/d' .config
+          echo 'CONFIG_CCACHE_DIR="/runner/_work/.ccache"' >> .config
+          echo 'CONFIG_DOWNLOAD_FOLDER="/runner/_work/dl"' >> .config
           make defconfig
 
       - name: Build firmware
         run: |
+          ccache -s
           make download -j$(nproc) || {
             echo "Retrying..."
             sleep 60
@@ -111,6 +121,7 @@ jobs:
             sleep 60
             make -j1 V=s
           }
+          ccache -s
           mkdir -p firmware
           find ./bin -type f \( -iname 'openwrt-*-sysupgrade.bin' -or -iname 'openwrt-*-factory.bin' -or -iname 'config.buildinfo' -or -iname 'version.buildinfo' \) -exec mv -v {} ./firmware/ \; ||:
           mv .config firmware/full.config ||:
