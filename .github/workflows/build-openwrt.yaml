@@ -126,20 +126,47 @@ jobs:
         run: |
           RELEASE_DATE=$(date +%F)
           gh release delete "${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE}" --cleanup-tag -y --repo "${{ github.repository }}" ||:
-          gh release create "${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE}" --repo "${{ github.repository }}" --latest --notes "### 🔄 Main Repository
-          - **Repository:** [${{ env.REMOTE_REPOSITORY }}](https://github.com/${{ env.REMOTE_REPOSITORY }})
-          - **Branch:** ${{ needs.check_commits.outputs.remote_branch }}
-          - **Commit:** [${{ needs.check_commits.outputs.latest_commit_sha }}](https://github.com/${{ env.REMOTE_REPOSITORY }}/tree/${{ needs.check_commits.outputs.latest_commit_sha }})
-          
-          ### 📝 Build Information
-          - **Target:** [Flint 2 (GL-MT6000)](https://openwrt.org/toh/gl.inet/gl-mt6000)
-          - **Configuration:** [${{ env.CONFIG_FILE }}](${{ env.CONFIG_FILE }})
-          - **WiFi UCODE scripts**
-          - **Wireguard VPN**
-          - **Policy Based Routing**
-          - **Ad Block Fast**
-          - **My custom nordvpnlite installer script**
-          - **REMOVED:** odhcp, upnp, iptables, avahi, samba, usb storage..." --title "OpenWrt Custom Release for Flint 2 (${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE})" firmware/*
+          cat << EOF > release_notes.md
+### 🔄 Upstream Source
+- **Repository:** [${{ env.REMOTE_REPOSITORY }}](https://github.com/${{ env.REMOTE_REPOSITORY }})
+- **Branch:** ${{ needs.check_commits.outputs.remote_branch }}
+- **Commit:** [${{ needs.check_commits.outputs.latest_commit_sha }}](https://github.com/${{ env.REMOTE_REPOSITORY }}/tree/${{ needs.check_commits.outputs.latest_commit_sha }})
+
+### 📝 Build Information
+- **Target:** [GL.iNet Flint 2 (GL-MT6000)](https://openwrt.org/toh/gl.inet/gl-mt6000)
+- **Configuration:** [${{ env.CONFIG_FILE }}](${{ env.CONFIG_FILE }})
+
+### 📦 Features & Packages Included
+* **Containers & Virtualization:** Docker CE, dockerd, docker-compose, and LuCI Dockerman (\`luci-app-dockerman\`).
+* **Storage & File Sharing:**
+  - USB 3.0 / UAS high-speed storage drivers (\`kmod-usb-storage\`, \`kmod-usb-storage-uas\`, \`block-mount\`).
+  - Filesystems: Btrfs (\`kmod-fs-btrfs\`, \`btrfs-progs\`), ext4 (\`e2fsprogs\`), FAT/FAT32 (\`dosfstools\`), exFAT (\`kmod-fs-exfat\`), NTFS (\`kmod-fs-ntfs3\`).
+  - Windows Network Shares: Samba 4 (\`samba4-server\`, \`luci-app-samba4\`).
+  - Web File Explorer: \`luci-app-filebrowser\`.
+  - Media Server: miniDLNA (\`luci-app-minidlna\`, \`minidlna\`).
+  - Disk Power Management: \`luci-app-hd-idle\` (auto spindown for external HDDs).
+* **VPN & Remote Networking:**
+  - Tailscale mesh VPN (\`tailscale\`, \`luci-app-tailscale-community\`).
+  - ZeroTier SDN (\`zerotier\`, \`luci-app-zerotier\`).
+  - WireGuard (\`luci-proto-wireguard\`) & Policy Based Routing (\`luci-app-pbr\`).
+  - Optional NordVPN Lite installer script (\`nordvpnlite-install\`).
+* **Administration & Monitoring:**
+  - Web Terminal: \`luci-app-ttyd\` (browser SSH/terminal tab in LuCI).
+  - Bandwidth Monitor: \`luci-app-nlbwmon\` (per-host traffic accounting).
+  - Performance Graphs: \`luci-app-statistics\` (collectd CPU, RAM, load, traffic charts).
+  - Port Mapping & Discovery: UPnP (\`miniupnpd-nftables\`, \`luci-app-upnp\`), mDNS (\`avahi-nodbus-daemon\`).
+  - Network Tools: Wake-on-LAN (\`luci-app-wol\`), AdBlock Fast (\`luci-app-adblock-fast\`), CAKE QoS (\`kmod-sched-cake\`, \`tc-tiny\`).
+  - Shell & System: Persistent terminal command history, kernel swap support enabled.
+* **Modern Themes:**
+  - Aurora (\`luci-theme-aurora\` set as default on first boot) + visual configurator (\`luci-app-aurora-config\`).
+  - Argon (\`luci-theme-argon\`) & Material (\`luci-theme-material\`).
+
+### ✂️ Removals & Optimizations
+* odhcp replaced by unified \`dnsmasq-full\`.
+* Legacy iptables replaced by modern \`nftables\`.
+* Kernel debug symbols stripped for compact size and performance.
+EOF
+          gh release create "${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE}" --repo "${{ github.repository }}" --latest --notes-file release_notes.md --title "OpenWrt Custom Release for Flint 2 (${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE})" firmware/*
 
       - name: Clean up old releases
         run: |

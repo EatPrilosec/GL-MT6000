@@ -8,21 +8,17 @@ Instead, **make a fork and adapt to your needs**.
 Read [this topic](https://forum.openwrt.org/t/mt6000-custom-build-with-luci-and-some-optimization-kernel-6-12-x/185241) in OpenWrt's forum to learn the details about pesa1234's customizations.
 
 Compared to his custom firmware, this firmware adds:
-- **WiFi UCODE scripts** (faster boot)
-- **Wireguard VPN**
-- **Policy Based Routing** (select what goes through VPN and what not)
-- **AdBlock Fast** (ads and malware blocking at DNS level)
-- **Custom Attended Sysupgrade** (install custom firmware from GitHub)
-- **NordVPN Lite installer** (optional: nothing is downloaded until you run it)
+- **Docker Suite**: Docker CE, dockerd, docker-compose, and LuCI Dockerman (`luci-app-dockerman`).
+- **USB Storage & Filesystems**: USB 3.0 / UAS drivers (`kmod-usb-storage`, `kmod-usb-storage-uas`), Btrfs (`kmod-fs-btrfs`, `btrfs-progs`), ext4 (`e2fsprogs`), FAT/FAT32 (`dosfstools`), exFAT, NTFS.
+- **File Sharing & Web Management**: Windows Network Shares Samba 4 (`samba4-server`, `luci-app-samba4`), Web File Explorer (`luci-app-filebrowser`), DLNA Media Server (`luci-app-minidlna`), and HDD spindown (`luci-app-hd-idle`).
+- **Mesh & Remote VPNs**: Tailscale (`tailscale`, `luci-app-tailscale-community`), ZeroTier (`zerotier`, `luci-app-zerotier`), WireGuard (`luci-proto-wireguard`), Policy Based Routing (`luci-app-pbr`), and optional NordVPN Lite installer (`nordvpnlite-install`).
+- **Networking & Administration**: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS discovery (`avahi-nodbus-daemon`), Web Terminal (`luci-app-ttyd`), Bandwidth Monitoring (`luci-app-nlbwmon`), System Statistics (`luci-app-statistics`), Wake-on-LAN (`luci-app-wol`), AdBlock Fast (`luci-app-adblock-fast`).
+- **Modern Themes**: Aurora (default theme on first boot via UCI default) + configuration app (`luci-app-aurora-config`), Argon, and Material.
+- **System Enhancements**: WiFi UCODE scripts (faster boot), CAKE QoS (`kmod-sched-cake`), persistent terminal history, kernel swap support enabled, and Custom Attended Sysupgrade.
+- **Security & Hardening**: Hardened SSH configuration with strong algorithms ([`ssh_hardening.conf`](files/etc/ssh/sshd_config.d/ssh_hardening.conf)).
 
-And also:
-- **REMOVED:** odhcp, upnp, iptables, avahi, samba, usb storage and probably more stuff I forgot to mention.
-- Added the needed packages to use QoS script [cake-wg-pbr](https://github.com/lynxthecat/cake-wg-pbr)
-- Some compiler optimizations and build hardening options (cortex-a53+crc+crypto; LTO, MOLD, and more).
-- SSH configuration with strong algorithms and key exchange methods. Check the content of [`ssh_hardening.config`](files/etc/ssh/sshd_config.d/ssh_hardening.conf) and [`sshd_config`](files/etc/ssh/sshd_config).
-- Quality-of-life enhancements through UCI configuration. Check the content of [`99-QOL_config`](files/etc/uci-defaults/99-QOL_config).
-- Some debug and kernel stuff removed.
-- [`upgrade_custom_openwrt`](files/usr/bin/upgrade_custom_openwrt) script
+And removals:
+- **REMOVED:** `odhcp6c`/`odhcpd` (unified under `dnsmasq-full`), legacy `iptables` (replaced by modern `nftables`), and unnecessary kernel debug symbols.
 
 Check the content of [`mt6000.config`](mt6000.config) for details.
 
