@@ -177,6 +177,8 @@ jobs:
             - AP Roaming & Band Steering: usteer 802.11k/v/r assist (`usteer`, `luci-app-usteer`).
             - Full WPA3/802.11r/k/v suite: `wpad-openssl` with fast WiFi UCODE scripts.
           * **Administration & Monitoring:**
+            - Modern LuCI Dashboard: `luci-mod-dashboard` with custom hardware temperature monitoring (CPU SoC, MT7915 Wi-Fi 2.4G/5G, RTL8221B WAN/LAN 2.5G PHYs), live multi-series chart, KPI cards, and detail tab.
+            - Status Overview Thermals: Hardware temperature overview table on the classic LuCI Status page.
             - Web Terminal: `luci-app-ttyd` (browser SSH/terminal tab in LuCI).
             - Bandwidth Monitor: `luci-app-nlbwmon` (per-host traffic accounting).
             - Performance Graphs: `luci-app-statistics` (collectd CPU, RAM, load, traffic charts).
