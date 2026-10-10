@@ -38,11 +38,38 @@ set wireless.default_radio1.ocv='0'
 set firewall.@zone[1].input='DROP'
 set firewall.@zone[1].forward='DROP'
 
+# RustDesk Port Forwards (disabled by default)
+set firewall.rustdesk_tcp=redirect
+set firewall.rustdesk_tcp.name='RustDesk-TCP'
+set firewall.rustdesk_tcp.src='wan'
+set firewall.rustdesk_tcp.dest='lan'
+set firewall.rustdesk_tcp.proto='tcp'
+set firewall.rustdesk_tcp.src_dport='21115-21119'
+set firewall.rustdesk_tcp.dest_port='21115-21119'
+set firewall.rustdesk_tcp.dest_ip='192.168.8.1'
+set firewall.rustdesk_tcp.target='DNAT'
+set firewall.rustdesk_tcp.enabled='0'
+
+set firewall.rustdesk_udp=redirect
+set firewall.rustdesk_udp.name='RustDesk-UDP'
+set firewall.rustdesk_udp.src='wan'
+set firewall.rustdesk_udp.dest='lan'
+set firewall.rustdesk_udp.proto='udp'
+set firewall.rustdesk_udp.src_dport='21116'
+set firewall.rustdesk_udp.dest_port='21116'
+set firewall.rustdesk_udp.dest_ip='192.168.8.1'
+set firewall.rustdesk_udp.target='DNAT'
+set firewall.rustdesk_udp.enabled='0'
+
 # uHTTPd settings
 set uhttpd.main.redirect_https='1'
 
 # LuCI default theme
 set luci.main.mediaurlbase='/luci-static/proton2025'
+
+# RustDesk Server service state (disabled by default)
+set rustdesk-server.@rustdesk-server[0].enabled='0'
+set rustdesk-server.@rustdesk-server[0].enabled_relay='0'
 
 # Mark these defaults as applied
 set qol_config.state='state'
@@ -52,11 +79,12 @@ commit wireless
 commit firewall
 commit uhttpd
 commit luci
+commit rustdesk-server
 commit qol_config
 EOI
 
 # Ensure optional services stay dormant on first boot until user enables them in LuCI
-for svc in adguardhome banip https-dns-proxy smartdns sqm mwan3 usteer; do
+for svc in adguardhome banip https-dns-proxy smartdns sqm mwan3 usteer rustdesk-server; do
     [ -x "/etc/init.d/$svc" ] && /etc/init.d/$svc disable 2>/dev/null || true
 done
 

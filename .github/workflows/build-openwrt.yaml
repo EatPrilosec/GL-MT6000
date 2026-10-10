@@ -88,6 +88,11 @@ jobs:
             [ -d "$d" ] || continue
             find "$d" -type f -exec chmod -v 755 {} +
           done
+          # Copy custom repository packages into buildroot
+          if [ -d builder_repo/package ]; then
+            mkdir -p package
+            cp -rfv builder_repo/package/* package/
+          fi
           # Clone Proton2025 theme
           git clone --depth=1 https://github.com/ChesterGoodiny/luci-theme-proton2025.git package/luci-theme-proton2025
           mv -v builder_repo/${{ env.CONFIG_FILE }} .config
@@ -158,6 +163,7 @@ jobs:
           * **VPN & Remote Networking:**
             - Tailscale mesh VPN (`tailscale`, `luci-app-tailscale-community`).
             - ZeroTier SDN (`zerotier`).
+            - RustDesk self-hosted remote desktop server (`rustdesk-server`, `luci-app-rustdesk-server`) with dormant port forwards.
             - WireGuard (`luci-proto-wireguard`) & Policy Based Routing (`luci-app-pbr`).
             - Optional NordVPN Lite installer script (`nordvpnlite-install`).
           * **Security, Adblocking & Firewall:**
