@@ -18,12 +18,12 @@ Compared to his custom firmware, this firmware adds:
 - **Networking & Administration**: Dynamic DNS (`ddns-scripts`, `luci-app-ddns`), Speed Test (`luci-app-librespeed`), Wi-Fi Association Log (`luci-app-wifihistory`), UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS discovery (`avahi-dbus-daemon`), Web Terminal (`luci-app-ttyd`), Bandwidth Monitoring (`luci-app-nlbwmon`), Extended System Statistics (`luci-app-statistics` with full collectd plugins suite: `cpufreq`, `disk`, `dns`, `df`, `dhcpleases`, `ethstat`, `ntpd`, `processes`, `protocols`, `sensors`, `sqm`, `swap`, `thermal`, `threshold`, `uptime`, `vmem`), Wake-on-LAN (`luci-app-wol`).
 - **Hardware Monitoring & Dashboard**: Modern dashboard (`luci-mod-dashboard`) and status overview with live multi-sensor hardware temperature monitoring (CPU SoC, MT7915 Wi-Fi 2.4G/5G, and RTL8221B WAN/LAN 2.5G PHYs).
 - **Themes**: Proton2025 (`luci-theme-proton2025`, default theme on first boot via UCI default), Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
-- **Wireless & Roaming**: usteer AP roaming assist & band steering (`usteer`, `luci-app-usteer`), full `wpad-openssl` (802.11k/v/r), and WiFi UCODE scripts (faster boot).
+- **Wireless & Roaming**: Preconfigured US regulatory defaults with 160MHz 5GHz (`HE160`), implicit TX beamforming (`itxbfen`), WPA2/WPA3 Personal (`sae-mixed`), radios disabled by default on fresh flash for setup safety, usteer AP roaming assist & band steering (`usteer`, `luci-app-usteer`), full `wpad-openssl` (802.11k/v/r), and WiFi UCODE scripts (faster boot).
 - **System Enhancements & Utilities**: GNU Bash (`bash`), GNU `coreutils-whoami`, persistent terminal command history, kernel swap support enabled, and Custom Attended Sysupgrade.
 - **Security & Hardening**: Hardened SSH configuration with strong algorithms ([`ssh_hardening.conf`](files/etc/ssh/sshd_config.d/ssh_hardening.conf)).
 
 And removals:
-- **REMOVED:** `odhcp6c`/`odhcpd` (unified under `dnsmasq-full`) and unnecessary kernel debug symbols.
+- **REMOVED:** `odhcp6c`/`odhcpd` (unified under `dnsmasq-full`), `luci-theme-argon` (broken upstream dependencies), and unnecessary kernel debug symbols.
 
 Check the content of [`mt6000.config`](mt6000.config) for details.
 

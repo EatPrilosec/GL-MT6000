@@ -179,6 +179,7 @@ jobs:
             - Multi-WAN Balancing: mwan3 failover & load balancing (`mwan3`, `luci-app-mwan3`).
             - Core QoS: CAKE schedulers (`kmod-sched-cake`, `tc-tiny`).
           * **Wireless & Roaming Optimization:**
+            - Preconfigured US Wireless Profiles: 5GHz 160MHz channel bandwidth (`HE160`), implicit TX beamforming (`itxbfen`), WPA2/WPA3 mixed mode (`sae-mixed`), dormant radios on fresh flash for initial setup safety.
             - AP Roaming & Band Steering: usteer 802.11k/v/r assist (`usteer`, `luci-app-usteer`).
             - Full WPA3/802.11r/k/v suite: `wpad-openssl` with fast WiFi UCODE scripts.
           * **Administration & Monitoring:**
@@ -200,6 +201,7 @@ jobs:
           ### ✂️ Removals & Optimizations
           * odhcp replaced by unified `dnsmasq-full`.
           * Legacy iptables replaced by modern `nftables`.
+          * Removed broken upstream theme (`luci-theme-argon`).
           * Kernel debug symbols stripped for compact size and performance.
           EOF
           gh release create "${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE}" --repo "${{ github.repository }}" --latest --notes-file release_notes.md --title "OpenWrt Custom Release for Flint 2 (${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE})" firmware/*
