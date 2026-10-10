@@ -4,35 +4,50 @@ touch /etc/config/qol_config
 
 uci -q batch << EOI
 
-# Wireless radio0 specific settings
-set wireless.radio0.country='PT'
+# Wireless radio0 specific settings (2.4GHz)
+set wireless.radio0.country='US'
 set wireless.radio0.band='2g'
 set wireless.radio0.channel='11'
 set wireless.radio0.htmode='HE20'
 set wireless.radio0.txpower='20'
 set wireless.radio0.cell_density='0'
 set wireless.radio0.vendor_vht='1'
+set wireless.radio0.disabled='1'
 
-set wireless.default_radio0.ieee80211w='2'
+set wireless.default_radio0=wifi-iface
+set wireless.default_radio0.device='radio0'
+set wireless.default_radio0.network='lan'
+set wireless.default_radio0.mode='ap'
+set wireless.default_radio0.ssid='WiFi'
+set wireless.default_radio0.encryption='sae-mixed'
+set wireless.default_radio0.key='wifipass'
 set wireless.default_radio0.noscan='1'
 set wireless.default_radio0.dtim_period='2'
 set wireless.default_radio0.beacon_int='100'
 set wireless.default_radio0.ieee80211n='1'
-set wireless.default_radio0.ocv='0'
+set wireless.default_radio0.disabled='1'
 
-# Wireless radio1 specific settings
-set wireless.radio1.country='PT'
+# Wireless radio1 specific settings (5GHz)
+set wireless.radio1.country='US'
 set wireless.radio1.band='5g'
-set wireless.radio1.channel='48'
-set wireless.radio1.htmode='HE80'
+set wireless.radio1.channel='auto'
+set wireless.radio1.htmode='HE160'
 set wireless.radio1.txpower='20'
 set wireless.radio1.cell_density='1'
+set wireless.radio1.itxbfen='1'
+set wireless.radio1.disabled='1'
 
-set wireless.default_radio1.ieee80211w='2'
+set wireless.default_radio1=wifi-iface
+set wireless.default_radio1.device='radio1'
+set wireless.default_radio1.network='lan'
+set wireless.default_radio1.mode='ap'
+set wireless.default_radio1.ssid='WiFi'
+set wireless.default_radio1.encryption='sae-mixed'
+set wireless.default_radio1.key='wifipass'
 set wireless.default_radio1.noscan='1'
 set wireless.default_radio1.dtim_period='2'
 set wireless.default_radio1.beacon_int='100'
-set wireless.default_radio1.ocv='0'
+set wireless.default_radio1.disabled='1'
 
 # Firewall settings
 set firewall.@zone[1].input='DROP'
