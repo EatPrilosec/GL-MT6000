@@ -155,23 +155,26 @@ jobs:
           * **Containers & Virtualization:** Docker CE, dockerd, docker-compose, and LuCI Dockerman (`luci-app-dockerman`).
           * **Storage & File Sharing:**
             - USB 3.0 / UAS high-speed storage drivers (`kmod-usb-storage`, `kmod-usb-storage-uas`, `block-mount`).
-            - Filesystems: Btrfs (`kmod-fs-btrfs`, `btrfs-progs`), ext4 (`e2fsprogs`), FAT/FAT32 (`dosfstools`), exFAT (`kmod-fs-exfat`), NTFS (`kmod-fs-ntfs3`).
+            - Filesystems: Btrfs (`kmod-fs-btrfs`, `btrfs-progs`), ext4 (`e2fsprogs`, `chattr`), FAT/FAT32 (`dosfstools`), exFAT (`kmod-fs-exfat`, `exfat-fsck`), F2FS (`kmod-fs-f2fs`, `f2fsck`), NTFS (`kmod-fs-ntfs3`).
             - Windows Network Shares: Samba 4 (`samba4-server`, `luci-app-samba4`).
-            - Web File Explorer: `luci-app-filebrowser`.
+            - File Manager: Native LuCI File Manager (`luci-app-filemanager`).
             - Media Server: miniDLNA (`luci-app-minidlna`, `minidlna`).
             - Disk Power Management: `luci-app-hd-idle` (auto spindown for external HDDs).
           * **VPN & Remote Networking:**
             - Tailscale mesh VPN (`tailscale`, `luci-app-tailscale-community`).
             - ZeroTier SDN (`zerotier`).
+            - Tor Onion Router (`tor`, `luci-app-tor`).
             - RustDesk self-hosted remote desktop server (`rustdesk-server`, `luci-app-rustdesk-server`) with dormant port forwards.
             - WireGuard (`luci-proto-wireguard`) & Policy Based Routing (`luci-app-pbr`).
             - Optional NordVPN Lite installer script (`nordvpnlite-install`).
           * **Security, Adblocking & Firewall:**
             - IP Threat Blocker: banIP nftables sets (`banip`, `luci-app-banip`).
+            - Intrusion Prevention: Fail2Ban log scanner & dynamic bans (`fail2ban`).
             - DNS Adblocker & Sinkhole: AdGuard Home (`adguardhome`, `luci-app-adguardhome`).
             - Fast DNS Blocker: AdBlock Fast (`adblock-fast`, `luci-app-adblock-fast`).
             - Port Mapping & Discovery: UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS (`avahi-dbus-daemon`).
-          * **Encrypted DNS (DoH / DoT):**
+          * **DNS Services (Recursive & Encrypted):**
+            - Unbound Recursive DNS Resolver: `unbound-daemon`, `luci-app-unbound`.
             - Official DoH Proxy: HTTPS DNS Proxy for IPv4/IPv6 (`https-dns-proxy`, `luci-app-https-dns-proxy`).
             - Smart Multi-Upstream Resolver: SmartDNS DoH/DoT (`smartdns`, `luci-app-smartdns`).
           * **Traffic & Multi-WAN Management:**
@@ -186,6 +189,9 @@ jobs:
             - Modern LuCI Dashboard: `luci-mod-dashboard` with custom hardware temperature monitoring (CPU SoC, MT7915 Wi-Fi 2.4G/5G, RTL8221B WAN/LAN 2.5G PHYs), live multi-series chart, KPI cards, and detail tab.
             - Status Overview Thermals: Hardware temperature overview table on classic LuCI Status page.
             - Web Terminal: `luci-app-ttyd` (browser SSH/terminal tab in LuCI).
+            - Network UPS Tools: `luci-app-nut` (UPS daemon, client, and monitoring).
+            - Chrony NTP Server/Client: `luci-app-chrony` (precision network time synchronization).
+            - uHTTPd Web Server Manager: `luci-app-uhttpd`.
             - Automated Certificates: `luci-app-acme` (`acme-acmesh`, `acme-acmesh-dnsapi` with DNS API hooks).
             - Dynamic DNS Suite: `luci-app-ddns` with all 30 provider backends (`ddns-scripts-cloudflare`, `route53`, `digitalocean`, `porkbun`, `godaddy`, `services`, etc.).
             - Speed Test: `luci-app-librespeed` (embedded speedtest tool).
@@ -203,6 +209,7 @@ jobs:
           * odhcp replaced by unified `dnsmasq-full`.
           * Legacy iptables replaced by modern `nftables`.
           * Removed broken upstream theme (`luci-theme-argon`).
+          * Removed `luci-app-filebrowser` (replaced by native `luci-app-filemanager`) and `luci-app-natmap`.
           * Kernel debug symbols stripped for compact size and performance.
           EOF
           gh release create "${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE}" --repo "${{ github.repository }}" --latest --notes-file release_notes.md --title "OpenWrt Custom Release for Flint 2 (${{ needs.check_commits.outputs.release_prefix }}-${RELEASE_DATE})" firmware/*
