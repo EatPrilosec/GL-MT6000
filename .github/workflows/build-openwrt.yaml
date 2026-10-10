@@ -195,7 +195,7 @@ jobs:
             - Shell & System: GNU Bash (`bash`), `coreutils-whoami`, persistent terminal command history, kernel swap support enabled.
           * **Modern Themes:**
             - Proton2025 (`luci-theme-proton2025` set as default on first boot) with dark mode, custom accent, constellation animation, and integrated theme settings.
-            - Argon (`luci-theme-argon`), Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
+            - Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
 
           ### ✂️ Removals & Optimizations
           * odhcp replaced by unified `dnsmasq-full`.
