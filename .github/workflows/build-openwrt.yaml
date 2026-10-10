@@ -88,9 +88,8 @@ jobs:
             [ -d "$d" ] || continue
             find "$d" -type f -exec chmod -v 755 {} +
           done
-          # Clone Aurora theme and configuration app
-          git clone --depth=1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
-          git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config.git package/luci-app-aurora-config
+          # Clone Proton2025 theme
+          git clone --depth=1 https://github.com/ChesterGoodiny/luci-theme-proton2025.git package/luci-theme-proton2025
           mv -v builder_repo/${{ env.CONFIG_FILE }} .config
           rm -rfv builder_repo
           # Configure OpenWrt to use runner's Go 1.24 to bootstrap Go 1.27
@@ -185,7 +184,7 @@ jobs:
             - Network Tools: Wake-on-LAN (`luci-app-wol`).
             - Shell & System: Persistent terminal command history, kernel swap support enabled.
           * **Modern Themes:**
-            - Aurora (`luci-theme-aurora` set as default on first boot) + visual configurator (`luci-app-aurora-config`).
+            - Proton2025 (`luci-theme-proton2025` set as default on first boot) with dark mode, custom accent, constellation animation, and integrated theme settings.
             - Argon (`luci-theme-argon`) & Material (`luci-theme-material`).
 
           ### ✂️ Removals & Optimizations
