@@ -183,15 +183,19 @@ jobs:
             - Full WPA3/802.11r/k/v suite: `wpad-openssl` with fast WiFi UCODE scripts.
           * **Administration & Monitoring:**
             - Modern LuCI Dashboard: `luci-mod-dashboard` with custom hardware temperature monitoring (CPU SoC, MT7915 Wi-Fi 2.4G/5G, RTL8221B WAN/LAN 2.5G PHYs), live multi-series chart, KPI cards, and detail tab.
-            - Status Overview Thermals: Hardware temperature overview table on the classic LuCI Status page.
+            - Status Overview Thermals: Hardware temperature overview table on classic LuCI Status page.
             - Web Terminal: `luci-app-ttyd` (browser SSH/terminal tab in LuCI).
+            - Dynamic DNS: `luci-app-ddns` (`ddns-scripts`).
+            - Speed Test: `luci-app-librespeed` (embedded speedtest tool).
+            - Wi-Fi Association Log: `luci-app-wifihistory` (client roam and connection tracking).
+            - Security & Auth: `luci-plugin-2fa` (Two-Factor Authentication for LuCI).
             - Bandwidth Monitor: `luci-app-nlbwmon` (per-host traffic accounting).
-            - Performance Graphs: `luci-app-statistics` (collectd CPU, RAM, load, traffic charts).
+            - Extended System Statistics: `luci-app-statistics` with full collectd plugin suite (`cpufreq`, `disk`, `dns`, `df`, `dhcpleases`, `ethstat`, `ntpd`, `processes`, `protocols`, `sensors`, `sqm`, `swap`, `thermal`, `threshold`, `uptime`, `vmem`).
             - Network Tools: Wake-on-LAN (`luci-app-wol`).
-            - Shell & System: Persistent terminal command history, kernel swap support enabled.
+            - Shell & System: GNU Bash (`bash`), `coreutils-whoami`, persistent terminal command history, kernel swap support enabled.
           * **Modern Themes:**
             - Proton2025 (`luci-theme-proton2025` set as default on first boot) with dark mode, custom accent, constellation animation, and integrated theme settings.
-            - Argon (`luci-theme-argon`) & Material (`luci-theme-material`).
+            - Argon (`luci-theme-argon`), Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
 
           ### ✂️ Removals & Optimizations
           * odhcp replaced by unified `dnsmasq-full`.
