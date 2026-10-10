@@ -7,24 +7,49 @@ Instead, **make a fork and adapt to your needs**.
 
 Read [this topic](https://forum.openwrt.org/t/mt6000-custom-build-with-luci-and-some-optimization-kernel-6-12-x/185241) in OpenWrt's forum to learn the details about pesa1234's customizations.
 
-Compared to his custom firmware, this firmware adds:
-- **Docker Suite**: Docker CE, dockerd, docker-compose, and LuCI Dockerman (`luci-app-dockerman`).
-- **USB Storage & Filesystems**: USB 3.0 / UAS drivers (`kmod-usb-storage`, `kmod-usb-storage-uas`), Btrfs (`kmod-fs-btrfs`, `btrfs-progs`), ext4 (`e2fsprogs`, `chattr`), FAT/FAT32 (`dosfstools`), exFAT (`exfat-fsck`), F2FS (`kmod-fs-f2fs`, `f2fsck`, `mkf2fs`), block device inspector (`lsblk`), extended attributes (`attr`), NTFS.
-- **File Sharing & Web Management**: Windows Network Shares Samba 4 (`samba4-server`, `luci-app-samba4`), Native LuCI File Manager (`luci-app-filemanager`), DLNA Media Server (`luci-app-minidlna`), and HDD spindown (`luci-app-hd-idle`).
-- **Mesh & Remote VPNs & Anonymity**: Tailscale (`tailscale`, `luci-app-tailscale-community`), ZeroTier (`zerotier`), Tor Onion Router (`tor`, `luci-app-tor`), Persistent SSH Tunnels (`sshtunnel`, `luci-app-sshtunnel`), RustDesk self-hosted remote desktop (`rustdesk-server`, `luci-app-rustdesk-server`), WireGuard (`luci-proto-wireguard`), Policy Based Routing (`luci-app-pbr`), and optional NordVPN Lite installer (`nordvpnlite-install`).
-- **IoT & Automation**: Eclipse Mosquitto MQTT broker (`mosquitto-nossl`, `luci-app-mosquitto`).
-- **Security & Adblocking**: banIP nftables threat blocker (`banip`, `luci-app-banip`), Fail2Ban intrusion prevention (`fail2ban`), AdGuard Home DNS sinkhole (`adguardhome`, `luci-app-adguardhome`), AdBlock Fast (`adblock-fast`, `luci-app-adblock-fast`), Two-Factor Authentication (`luci-plugin-2fa`), and Pi-hole available via Docker.
-- **Encrypted & Recursive DNS**: Unbound recursive DNS resolver (`unbound-daemon`, `luci-app-unbound`), HTTPS DNS Proxy for IPv4/IPv6 (`https-dns-proxy`, `luci-app-https-dns-proxy`), and SmartDNS multi-upstream resolver (`smartdns`, `luci-app-smartdns`).
-- **Traffic & Multi-WAN Management**: SQM QoS with CAKE (`sqm-scripts`, `luci-app-sqm`), Multi-WAN failover & load balancing (`mwan3`, `luci-app-mwan3`), and CAKE QoS schedulers (`kmod-sched-cake`, `tc-tiny`).
-- **Networking & Administration**: Network UPS Tools (`nut`, `luci-app-nut`), Chrony NTP server/client (`chrony`, `luci-app-chrony`), uHTTPd web server management (`luci-app-uhttpd`), LuCI Access Control Lists (`luci-app-acl`), ACME / Let's Encrypt automated certificate management with DNS API hooks (`luci-app-acme`, `acme-acmesh`, `acme-acmesh-dnsapi`), Dynamic DNS (`luci-app-ddns`, `ddns-scripts` with all 30 provider backends including Cloudflare, Route 53, DuckDNS/Services, DigitalOcean, Hetzner, Porkbun, Gandi, No-IP, GoDaddy, etc.), Speed Test (`luci-app-librespeed`), Wi-Fi Association Log (`luci-app-wifihistory`), UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS discovery (`avahi-dbus-daemon`), Web Terminal (`luci-app-ttyd`), Bandwidth Monitoring (`luci-app-nlbwmon`), Extended System Statistics (`luci-app-statistics` with full collectd plugins suite: `cpufreq`, `disk`, `dns`, `df`, `dhcpleases`, `ethstat`, `exec`, `mqtt`, `ntpd`, `processes`, `protocols`, `sensors`, `smart`, `sqm`, `swap`, `thermal`, `threshold`, `uptime`, `vmem`), Wake-on-LAN (`luci-app-wol`).
-- **Hardware Monitoring & Dashboard**: Modern dashboard (`luci-mod-dashboard`) and status overview with live multi-sensor hardware temperature monitoring (CPU SoC, MT7915 Wi-Fi 2.4G/5G, and RTL8221B WAN/LAN 2.5G PHYs).
-- **Themes**: Proton2025 (`luci-theme-proton2025`, default theme on first boot via UCI default), Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
-- **Wireless & Roaming**: Preconfigured US regulatory defaults with 160MHz 5GHz (`HE160`), implicit TX beamforming (`itxbfen`), WPA2/WPA3 Personal (`sae-mixed`), radios disabled by default on fresh flash for setup safety, usteer AP roaming assist & band steering (`usteer`, `luci-app-usteer`), full `wpad-openssl` (802.11k/v/r), and WiFi UCODE scripts (faster boot).
-- **System Enhancements & Utilities**: GNU Bash (`bash`), GNU Nano (`nano-full` with syntax highlighting for UCI/scripts, UTF-8, and nanorc), GNU Coreutils (`coreutils-whoami`, `coreutils-sha1sum`, `sha224sum`, `sha256sum`, `sha384sum`, `sha512sum`), OpenSSH client (`openssh-client`), persistent terminal command history, kernel swap support enabled, and Custom Attended Sysupgrade.
+Compared to [pesa1234's base build](https://raw.githubusercontent.com/pesa1234/MT6000_cust_build/refs/heads/main/2026-08-29_r36948-611fea61ac_next-r4.9.2.rss.mtk/targets/mediatek/filogic/config.buildinfo), this firmware introduces the following additions, modifications, and removals:
+
+### ✨ Custom Added Packages & Features
+- **Containers & Virtualization**: Docker CE, dockerd, docker-compose, and LuCI Dockerman (`luci-app-dockerman`).
+- **High-Speed USB Storage & Advanced Filesystems**: USB 3.0 / UAS drivers (`kmod-usb-storage`, `kmod-usb-storage-uas`), Btrfs (`kmod-fs-btrfs`, `btrfs-progs`), ext4 (`e2fsprogs`, `chattr`), FAT/FAT32 (`dosfstools`), exFAT (`exfat-fsck`), F2FS (`kmod-fs-f2fs`, `f2fsck`, `mkf2fs`), block device inspector (`lsblk`), extended attributes (`attr`), NTFS.
+- **File Management & Disk Power Control**: Native LuCI File Manager (`luci-app-filemanager`), HDD auto-spindown (`luci-app-hd-idle`).
+- **Mesh, Remote VPNs & Anonymity**: Tor Onion Router (`tor`, `luci-app-tor`), Persistent SSH Tunnels (`sshtunnel`, `luci-app-sshtunnel`), RustDesk self-hosted remote desktop (`rustdesk-server`, `luci-app-rustdesk-server`), and optional NordVPN Lite installer (`nordvpnlite-install`).
+- **IoT & Home Automation**: Eclipse Mosquitto MQTT broker (`mosquitto-nossl`, `luci-app-mosquitto`).
+- **Security & Intrusion Prevention**: banIP nftables threat blocker (`banip`, `luci-app-banip`), Fail2Ban intrusion prevention (`fail2ban`), AdGuard Home DNS sinkhole (`adguardhome`, `luci-app-adguardhome`), Two-Factor Authentication for LuCI (`luci-plugin-2fa`), and Pi-hole available via Docker.
+- **Recursive & Encrypted DNS**: Unbound recursive DNS resolver (`unbound-daemon`, `luci-app-unbound`), HTTPS DNS Proxy for IPv4/IPv6 (`https-dns-proxy`, `luci-app-https-dns-proxy`), and SmartDNS multi-upstream resolver (`smartdns`, `luci-app-smartdns`).
+- **Traffic Shaping & Roaming Assist**: SQM QoS with CAKE (`sqm-scripts`, `luci-app-sqm`, `kmod-sched-cake`, `tc-tiny`), usteer AP roaming assist & band steering (`usteer`, `luci-app-usteer`).
+- **Hardware Monitoring & Modern Dashboard**: Modern dashboard (`luci-mod-dashboard`) with live multi-sensor hardware temperature monitoring (CPU SoC, MT7915 Wi-Fi 2.4G/5G, and RTL8221B WAN/LAN 2.5G PHYs) and temperature table on classic status page.
+- **Extended System Telemetry**: LuCI Statistics (`luci-app-statistics`) with comprehensive Collectd plugins suite (`cpufreq`, `disk`, `dns`, `df`, `dhcpleases`, `ethstat`, `exec`, `mqtt`, `ntpd`, `processes`, `protocols`, `sensors`, `smart`, `sqm`, `swap`, `thermal`, `threshold`, `uptime`, `vmem`).
+- **Administration & Services**: LuCI Access Control Lists (`luci-app-acl`), ACME / Let's Encrypt automated certificate management with DNS API hooks (`luci-app-acme`, `acme-acmesh`, `acme-acmesh-dnsapi`), Dynamic DNS (`luci-app-ddns`, `ddns-scripts` with all 30 provider backends including Cloudflare, Route 53, DuckDNS, DigitalOcean, Hetzner, Porkbun, Gandi, No-IP, GoDaddy, etc.), Speed Test (`luci-app-librespeed`, `librespeed-cli`), Wi-Fi Association Log (`luci-app-wifihistory`), UPnP (`miniupnpd-nftables`, `luci-app-upnp`), mDNS discovery (`avahi-dbus-daemon`), Web Terminal (`luci-app-ttyd`), Network UPS Tools (`nut`, `luci-app-nut`), Chrony NTP server/client (`chrony`, `luci-app-chrony`), uHTTPd web server manager (`luci-app-uhttpd`), and Wake-on-LAN (`luci-app-wol`).
+- **Shell & System Utilities**: GNU Bash (`bash`), GNU Nano (`nano-full` with syntax highlighting for UCI/scripts, UTF-8, and nanorc), GNU Coreutils (`coreutils-whoami`, `coreutils-sha1sum`, `sha224sum`, `sha256sum`, `sha384sum`, `sha512sum`), OpenSSH client (`openssh-client`), and Custom Attended Sysupgrade.
+- **Modern Themes**: Proton2025 (`luci-theme-proton2025`, default theme on first boot via UCI default), Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
+- **Wireless Profiles**: Preconfigured US regulatory defaults with 160MHz 5GHz (`HE160`), implicit TX beamforming (`itxbfen`), WPA2/WPA3 Personal (`sae-mixed`), radios disabled by default on fresh flash for setup safety.
 - **Security & Hardening**: Hardened SSH configuration with strong algorithms ([`ssh_hardening.conf`](files/etc/ssh/sshd_config.d/ssh_hardening.conf)).
 
-And removals:
-- **REMOVED:** `odhcp6c`/`odhcpd` (unified under `dnsmasq-full`), `luci-theme-argon` (broken upstream dependencies), `luci-app-filebrowser` (replaced by native `luci-app-filemanager`), `luci-app-natmap`, and unnecessary kernel debug symbols.
+### ⚙️ Changed & Tuned from Pesa1234 Baseline
+- **CPU & Compiler Optimization**: Target optimization tuned to `-mcpu=cortex-a53+crc+crypto` (enabling hardware ARMv8 CRC32 and Cryptography instructions on Filogic 880 Cortex-A53 cores) instead of generic `-mcpu=cortex-a53`. Link-Time Optimization (`LTO`), Dead Code Elimination (`GC_SECTIONS`), and LLVM build toolchain enabled.
+- **Binary Hardening**: Built with full ASLR PIE (`CONFIG_PKG_ASLR_PIE_ALL=y`), Strong Stack Protector for kernel and userland (`CONFIG_PKG_CC_STACKPROTECTOR_STRONG=y`), and Fortify Source 2 (`CONFIG_PKG_FORTIFY_SOURCE_2=y`).
+- **OpenSSH Suite Replaces Dropbear**: Dropbear disabled; replaced by hardened OpenSSH server (`openssh-server`), client (`openssh-client`), and SFTP server (`openssh-sftp-server`) with strong cipher configurations.
+- **Unified OpenSSL 3 Stack**: mbedTLS completely eliminated; unified under OpenSSL 3 with hardware acceleration (`devcrypto`, `asm`, `TLS 1.3`), while obsolete OpenSSL 1.1 algorithms and legacy libraries are disabled (`CONFIG_OPENSSL_NO_DEPRECATED=y`).
+- **Promoted from Modular (`=m`) to Built-In (`=y`)**:
+  - Policy Based Routing & WireGuard: `pbr`, `luci-app-pbr`, `wireguard-tools`, `luci-proto-wireguard`, `resolveip`, `curl`, `libcurl`, `jq`.
+  - Mesh VPNs: Tailscale (`tailscale`, `luci-app-tailscale-community`) and ZeroTier (`zerotier`).
+  - Multi-WAN: `mwan3`, `luci-app-mwan3`.
+  - Windows Shares & Media Streaming: Samba 4 (`samba4-server`, `luci-app-samba4`), miniDLNA (`minidlna`, `luci-app-minidlna`).
+  - AdBlock Fast: `adblock-fast`, `luci-app-adblock-fast`, `gawk`, `coreutils`, `coreutils-sort`.
+  - Bandwidth & Diagnostics: `luci-app-nlbwmon`, `attr`, `terminfo`, `libreadline`, `libncurses`.
+- **DNS/DHCP Integration**: Unified under `dnsmasq-full` with DHCPv6 support enabled (`CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y`).
+- **Interactive Shell History**: Persistent command history enabled in BusyBox (`CONFIG_BUSYBOX_CONFIG_FEATURE_EDITING_SAVEHISTORY=y`).
+- **Fast Boot Wireless UCODE**: Fast WiFi startup scripts enabled (`CONFIG_WIFI_SCRIPTS_UCODE=y`).
+- **Kernel Swap Support**: Kernel swap enabled (`CONFIG_KERNEL_SWAP=y`) for optional memory expansion.
+
+### ✂️ Explicit Removals & Disabled Components
+- **Kernel Debugging Symbols Stripped**: `CONFIG_KERNEL_DEBUG_INFO`, `CONFIG_KERNEL_ELF_CORE`, `CONFIG_KERNEL_KALLSYMS`, and `CONFIG_KERNEL_MAGIC_SYSRQ` disabled for compact kernel size and fast execution.
+- **Dropbear**: Disabled in favor of full OpenSSH.
+- **mbedTLS & Legacy OpenSSL**: Disabled in favor of hardened OpenSSL 3.
+- **`luci-theme-argon`**: Disabled due to broken upstream dependencies.
+- **`luci-app-filebrowser`**: Disabled (replaced by native `luci-app-filemanager`).
+- **`luci-app-natmap`**: Disabled.
 
 Check the content of [`mt6000.config`](mt6000.config) for details.
 
