@@ -15,6 +15,7 @@ PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_DEPENDS:=rust/host openssl
 PKG_BUILD_PARALLEL:=1
+PKG_BUILD_FLAGS:=no-lto
 
 include $(INCLUDE_DIR)/package.mk
 include $(wildcard $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk ../../lang/rust/rust-package.mk)
