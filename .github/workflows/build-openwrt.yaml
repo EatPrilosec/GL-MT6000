@@ -193,7 +193,7 @@ jobs:
             - Bandwidth Monitor: `luci-app-nlbwmon` (per-host traffic accounting).
             - Extended System Statistics: `luci-app-statistics` with full collectd plugin suite (`cpufreq`, `disk`, `dns`, `df`, `dhcpleases`, `ethstat`, `ntpd`, `processes`, `protocols`, `sensors`, `sqm`, `swap`, `thermal`, `threshold`, `uptime`, `vmem`).
             - Network Tools: Wake-on-LAN (`luci-app-wol`).
-            - Shell & System: GNU Bash (`bash`), `coreutils-whoami`, persistent terminal command history, kernel swap support enabled.
+            - Shell & System: GNU Bash (`bash`), GNU Nano (`nano-full` with syntax highlighting & UTF-8), `coreutils-whoami`, persistent terminal command history, kernel swap support enabled.
           * **Modern Themes:**
             - Proton2025 (`luci-theme-proton2025` set as default on first boot) with dark mode, custom accent, constellation animation, and integrated theme settings.
             - Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).

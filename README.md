@@ -19,7 +19,7 @@ Compared to his custom firmware, this firmware adds:
 - **Hardware Monitoring & Dashboard**: Modern dashboard (`luci-mod-dashboard`) and status overview with live multi-sensor hardware temperature monitoring (CPU SoC, MT7915 Wi-Fi 2.4G/5G, and RTL8221B WAN/LAN 2.5G PHYs).
 - **Themes**: Proton2025 (`luci-theme-proton2025`, default theme on first boot via UCI default), Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
 - **Wireless & Roaming**: Preconfigured US regulatory defaults with 160MHz 5GHz (`HE160`), implicit TX beamforming (`itxbfen`), WPA2/WPA3 Personal (`sae-mixed`), radios disabled by default on fresh flash for setup safety, usteer AP roaming assist & band steering (`usteer`, `luci-app-usteer`), full `wpad-openssl` (802.11k/v/r), and WiFi UCODE scripts (faster boot).
-- **System Enhancements & Utilities**: GNU Bash (`bash`), GNU `coreutils-whoami`, persistent terminal command history, kernel swap support enabled, and Custom Attended Sysupgrade.
+- **System Enhancements & Utilities**: GNU Bash (`bash`), GNU Nano (`nano-full` with syntax highlighting for UCI/scripts, UTF-8, and nanorc), GNU `coreutils-whoami`, persistent terminal command history, kernel swap support enabled, and Custom Attended Sysupgrade.
 - **Security & Hardening**: Hardened SSH configuration with strong algorithms ([`ssh_hardening.conf`](files/etc/ssh/sshd_config.d/ssh_hardening.conf)).
 
 And removals:
