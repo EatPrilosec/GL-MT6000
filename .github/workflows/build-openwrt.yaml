@@ -155,7 +155,7 @@ jobs:
           * **Containers & Virtualization:** Docker CE, dockerd, docker-compose, and LuCI Dockerman (`luci-app-dockerman`).
           * **Storage & File Sharing:**
             - USB 3.0 / UAS high-speed storage drivers (`kmod-usb-storage`, `kmod-usb-storage-uas`, `block-mount`).
-            - Filesystems: Btrfs (`kmod-fs-btrfs`, `btrfs-progs`), ext4 (`e2fsprogs`, `chattr`), FAT/FAT32 (`dosfstools`), exFAT (`kmod-fs-exfat`, `exfat-fsck`), F2FS (`kmod-fs-f2fs`, `f2fsck`), NTFS (`kmod-fs-ntfs3`).
+            - Filesystems: Btrfs (`kmod-fs-btrfs`, `btrfs-progs`), ext4 (`e2fsprogs`, `chattr`), FAT/FAT32 (`dosfstools`), exFAT (`kmod-fs-exfat`, `exfat-fsck`), F2FS (`kmod-fs-f2fs`, `f2fsck`, `mkf2fs`), NTFS (`kmod-fs-ntfs3`), block device inspector (`lsblk`), extended attributes (`attr`).
             - Windows Network Shares: Samba 4 (`samba4-server`, `luci-app-samba4`).
             - File Manager: Native LuCI File Manager (`luci-app-filemanager`).
             - Media Server: miniDLNA (`luci-app-minidlna`, `minidlna`).
@@ -164,9 +164,12 @@ jobs:
             - Tailscale mesh VPN (`tailscale`, `luci-app-tailscale-community`).
             - ZeroTier SDN (`zerotier`).
             - Tor Onion Router (`tor`, `luci-app-tor`).
+            - Persistent SSH Tunnels (`sshtunnel`, `luci-app-sshtunnel`).
             - RustDesk self-hosted remote desktop server (`rustdesk-server`, `luci-app-rustdesk-server`) with dormant port forwards.
             - WireGuard (`luci-proto-wireguard`) & Policy Based Routing (`luci-app-pbr`).
             - Optional NordVPN Lite installer script (`nordvpnlite-install`).
+          * **IoT & Automation:**
+            - Eclipse Mosquitto MQTT broker (`mosquitto-nossl`, `luci-app-mosquitto`).
           * **Security, Adblocking & Firewall:**
             - IP Threat Blocker: banIP nftables sets (`banip`, `luci-app-banip`).
             - Intrusion Prevention: Fail2Ban log scanner & dynamic bans (`fail2ban`).
@@ -192,15 +195,16 @@ jobs:
             - Network UPS Tools: `luci-app-nut` (UPS daemon, client, and monitoring).
             - Chrony NTP Server/Client: `luci-app-chrony` (precision network time synchronization).
             - uHTTPd Web Server Manager: `luci-app-uhttpd`.
+            - LuCI Access Control Lists: `luci-app-acl`.
             - Automated Certificates: `luci-app-acme` (`acme-acmesh`, `acme-acmesh-dnsapi` with DNS API hooks).
             - Dynamic DNS Suite: `luci-app-ddns` with all 30 provider backends (`ddns-scripts-cloudflare`, `route53`, `digitalocean`, `porkbun`, `godaddy`, `services`, etc.).
             - Speed Test: `luci-app-librespeed` (embedded speedtest tool).
             - Wi-Fi Association Log: `luci-app-wifihistory` (client roam and connection tracking).
             - Security & Auth: `luci-plugin-2fa` (Two-Factor Authentication for LuCI).
             - Bandwidth Monitor: `luci-app-nlbwmon` (per-host traffic accounting).
-            - Extended System Statistics: `luci-app-statistics` with full collectd plugin suite (`cpufreq`, `disk`, `dns`, `df`, `dhcpleases`, `ethstat`, `ntpd`, `processes`, `protocols`, `sensors`, `sqm`, `swap`, `thermal`, `threshold`, `uptime`, `vmem`).
+            - Extended System Statistics: `luci-app-statistics` with full collectd plugin suite (`cpufreq`, `disk`, `dns`, `df`, `dhcpleases`, `ethstat`, `exec`, `mqtt`, `ntpd`, `processes`, `protocols`, `sensors`, `smart`, `sqm`, `swap`, `thermal`, `threshold`, `uptime`, `vmem`).
             - Network Tools: Wake-on-LAN (`luci-app-wol`).
-            - Shell & System: GNU Bash (`bash`), GNU Nano (`nano-full` with syntax highlighting & UTF-8), `coreutils-whoami`, persistent terminal command history, kernel swap support enabled.
+            - Shell & System: GNU Bash (`bash`), GNU Nano (`nano-full` with syntax highlighting & UTF-8), GNU Coreutils (`coreutils-whoami`, `coreutils-sha1sum`, `sha224sum`, `sha256sum`, `sha384sum`, `sha512sum`), OpenSSH client (`openssh-client`), persistent terminal command history, kernel swap support enabled.
           * **Modern Themes:**
             - Proton2025 (`luci-theme-proton2025` set as default on first boot) with dark mode, custom accent, constellation animation, and integrated theme settings.
             - Material (`luci-theme-material`), OpenWrt (`luci-theme-openwrt`), and OpenWrt 2020 (`luci-theme-openwrt-2020`).
